@@ -15,12 +15,13 @@
 
 struct ofxHttpForm{
 
-	vector <string> formIds;
-	vector <string> formValues;
 
-	std::map<string,string> formFiles;
+	int method;
+	string action;
+	string name;
 
     ofxHttpForm(){
+    	method = OFX_HTTP_GET;
     }
     ~ofxHttpForm(){
         clearFormFields();
@@ -39,7 +40,7 @@ struct ofxHttpForm{
 	}
 	// ----------------------------------------------------------------------
 	void addFile(string fieldName, string path){
-		formFiles[fieldName] =path;
+		formFiles[fieldName] = ofToDataPath(path);
 	}
 
 	string getFieldValue(string id){
@@ -49,9 +50,9 @@ struct ofxHttpForm{
 		return "";
 	}
 
-	int method;
-	string action;
-	string name;
+	vector <string> formIds;
+	vector <string> formValues;
+	std::map<string,string> formFiles;
 };
 
 #endif
