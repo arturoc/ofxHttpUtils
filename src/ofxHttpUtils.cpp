@@ -116,6 +116,13 @@ int ofxHttpUtils::doPostForm(ofxHttpForm & form){
         HTTPClientSession session(uri.getHost(), uri.getPort());
         HTTPRequest req(HTTPRequest::HTTP_POST, path, HTTPMessage::HTTP_1_1);
 
+        if(sendCookies){
+        	for(unsigned i=0; i<cookies.size(); i++){
+        		NameValueCollection reqCookies;
+        		reqCookies.add(cookies[i].getName(),cookies[i].getValue());
+        		req.setCookies(reqCookies);
+        	}
+        }
 
         HTMLForm pocoForm;
         // create the form data to send
@@ -146,6 +153,10 @@ int ofxHttpUtils::doPostForm(ofxHttpForm & form){
         istream& rs = session.receiveResponse(res);
 
 		ofxHttpResponse response = ofxHttpResponse(res, rs, path);
+
+		if(sendCookies){
+			cookies.insert(cookies.begin(),response.cookies.begin(),response.cookies.end());
+		}
 
     	ofNotifyEvent(newResponseEvent, response, this);
 
@@ -195,6 +206,7 @@ void ofxHttpUtils::getUrl(string url){
 
 
 }
+
 // ----------------------------------------------------------------------
 void ofxHttpUtils::addUrl(string url){
 	ofxHttpForm form;
@@ -203,6 +215,9 @@ void ofxHttpUtils::addUrl(string url){
     form.name=form.action;
 	addForm(form);
 }
-// ----------------------------------------------------------------------
 
+// ----------------------------------------------------------------------
+void ofxHttpUtils::sendReceivedCookies(){
+	sendCookies = true;
+}
 
