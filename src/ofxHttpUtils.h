@@ -45,6 +45,7 @@ struct ofxHttpResponse{
 
 		StreamCopier::copyToString(bodyStream, responseBody);
         url = turl;
+        pocoResponse.getCookies(cookies);
 	}
 
 	ofxHttpResponse(){}
@@ -55,6 +56,7 @@ struct ofxHttpResponse{
 	string contentType;			// the mime type of the response
 	Poco::Timestamp timestamp;		// time of the response
 	string url;
+	vector<HTTPCookie> cookies;
 };
 
 class ofxHttpUtils : public ofxThread{
@@ -93,6 +95,8 @@ class ofxHttpUtils : public ofxThread{
             verbose = v;
         }
 
+        void sendReceivedCookies();
+
 
 		void start();
         void stop();
@@ -101,6 +105,7 @@ class ofxHttpUtils : public ofxThread{
 
 		bool verbose;
         int timeoutSeconds;
+        bool sendCookies;
 
 		//--------------------------------
 		// http utils
@@ -108,6 +113,7 @@ class ofxHttpUtils : public ofxThread{
 		int doPostForm(ofxHttpForm & form);
 
 		std::queue<ofxHttpForm> forms;
+		vector<HTTPCookie> cookies;
 
 
 };
