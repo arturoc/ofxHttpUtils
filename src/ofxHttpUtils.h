@@ -18,6 +18,7 @@
 #include "Poco/Net/HTTPRequest.h"
 #include "Poco/Net/HTTPResponse.h"
 #include "Poco/Net/HTMLForm.h"
+#include "Poco/Net/HTTPBasicCredentials.h"
 #include "Poco/StreamCopier.h"
 #include "Poco/Path.h"
 #include "Poco/URI.h"
@@ -97,6 +98,8 @@ class ofxHttpUtils : public ofxThread{
 
         void sendReceivedCookies();
 
+        void setBasicAuthentication(string user, string password);
+
 
 		void start();
         void stop();
@@ -114,6 +117,7 @@ class ofxHttpUtils : public ofxThread{
 
 		std::queue<ofxHttpForm> forms;
 		vector<HTTPCookie> cookies;
+		HTTPBasicCredentials auth;
 
 
 };

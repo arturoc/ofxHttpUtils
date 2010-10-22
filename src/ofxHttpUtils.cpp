@@ -115,6 +115,7 @@ int ofxHttpUtils::doPostForm(ofxHttpForm & form){
 
         HTTPClientSession session(uri.getHost(), uri.getPort());
         HTTPRequest req(HTTPRequest::HTTP_POST, path, HTTPMessage::HTTP_1_1);
+        if(auth.getUsername()!="") auth.authenticate(req);
 
         if(sendCookies){
         	for(unsigned i=0; i<cookies.size(); i++){
@@ -188,6 +189,7 @@ void ofxHttpUtils::getUrl(string url){
 
 		HTTPClientSession session(uri.getHost(), uri.getPort());
 		HTTPRequest req(HTTPRequest::HTTP_GET, path, HTTPMessage::HTTP_1_1);
+		if(auth.getUsername()!="") auth.authenticate(req);
 		session.setTimeout(Poco::Timespan(timeoutSeconds,0));
 		session.sendRequest(req);
 		HTTPResponse res;
@@ -219,5 +221,11 @@ void ofxHttpUtils::addUrl(string url){
 // ----------------------------------------------------------------------
 void ofxHttpUtils::sendReceivedCookies(){
 	sendCookies = true;
+}
+
+// ----------------------------------------------------------------------
+void ofxHttpUtils::setBasicAuthentication(string user, string password){
+	auth.setUsername(user);
+	auth.setPassword(password);
 }
 
