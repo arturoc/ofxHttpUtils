@@ -24,8 +24,9 @@ ofxHttpUtils::ofxHttpUtils(){
 // ----------------------------------------------------------------------
 ofxHttpUtils::~ofxHttpUtils(){
 }
+
 // ----------------------------------------------------------------------
-int ofxHttpUtils::submitForm(ofxHttpForm form){
+ofxHttpResponse ofxHttpUtils::submitForm(ofxHttpForm form){
 	return doPostForm(form);
 }
 
@@ -106,11 +107,12 @@ string ofxHttpUtils::generateUrl(ofxHttpForm & form) {
 }
 
 // ----------------------------------------------------------------------
-int ofxHttpUtils::doPostForm(ofxHttpForm & form){
-	int ret = -1;
+ofxHttpResponse ofxHttpUtils::doPostForm(ofxHttpForm & form){
+	ofxHttpResponse response;
     try{
         URI uri( form.action.c_str() );
         std::string path(uri.getPathAndQuery());
+        cout << "ofxHttpUtils::post: "<< uri.getPathAndQuery() << endl;
         if (path.empty()) path = "/";
 
         HTTPClientSession session(uri.getHost(), uri.getPort());
@@ -153,7 +155,7 @@ int ofxHttpUtils::doPostForm(ofxHttpForm & form){
         HTTPResponse res;
         istream& rs = session.receiveResponse(res);
 
-		ofxHttpResponse response = ofxHttpResponse(res, rs, path);
+		response = ofxHttpResponse(res, rs, path);
 
 		if(sendCookies){
 			cookies.insert(cookies.begin(),response.cookies.begin(),response.cookies.end());
@@ -161,27 +163,28 @@ int ofxHttpUtils::doPostForm(ofxHttpForm & form){
 
     	ofNotifyEvent(newResponseEvent, response, this);
 
-    	ret = 0;
 
     }catch (Exception& exc){
 
-        printf("ofxHttpUtils error--\n");
+    	std::cerr << "ofxHttpUtils error--\n";
 
         //ofNotifyEvent(notifyNewError, "time out", this);
 
         // for now print error, need to broadcast a response
         std::cerr << exc.displayText() << std::endl;
+        response.status = -1;
+        response.reasonForStatus = exc.displayText();
 
     }
 
-    return ret;
+    return response;
 }
 
 // ----------------------------------------------------------------------
 
-void ofxHttpUtils::getUrl(string url){
+ofxHttpResponse ofxHttpUtils::getUrl(string url){
 
-
+   ofxHttpResponse response;
    try{
 		URI uri(url.c_str());
 		std::string path(uri.getPathAndQuery());
@@ -195,7 +198,7 @@ void ofxHttpUtils::getUrl(string url){
 		HTTPResponse res;
 		istream& rs = session.receiveResponse(res);
 
-		ofxHttpResponse response=ofxHttpResponse(res, rs, path);
+		response=ofxHttpResponse(res, rs, path);
 
 		ofNotifyEvent( newResponseEvent, response, this );
 
@@ -205,7 +208,7 @@ void ofxHttpUtils::getUrl(string url){
 	}catch (Exception& exc){
 		std::cerr << exc.displayText() << "\n";
 	}
-
+	return response;
 
 }
 
@@ -215,6 +218,7 @@ void ofxHttpUtils::addUrl(string url){
 	form.action=url;
 	form.method=OFX_HTTP_GET;
     form.name=form.action;
+
 	addForm(form);
 }
 

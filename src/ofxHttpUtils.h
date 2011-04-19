@@ -38,22 +38,26 @@ class ofxHttpEventManager;
 #include "ofxHttpTypes.h"
 
 struct ofxHttpResponse{
-	ofxHttpResponse(HTTPResponse& pocoResponse, std::istream &bodyStream, string turl){
+	ofxHttpResponse(HTTPResponse& pocoResponse, std::istream &bodyStream, string turl, bool binary=false){
 		status=pocoResponse.getStatus();
 		timestamp=pocoResponse.getDate();
 		reasonForStatus=pocoResponse.getReasonForStatus(pocoResponse.getStatus());
 		contentType = pocoResponse.getContentType();
+		responseBody.set(bodyStream);
 
-		StreamCopier::copyToString(bodyStream, responseBody);
         url = turl;
         pocoResponse.getCookies(cookies);
 	}
 
 	ofxHttpResponse(){}
 
+	string getURLFilename(){
+		return url.substr(url.rfind('/')+1);
+	}
+
 	int status; 				// return code for the response ie: 200 = OK
 	string reasonForStatus;		// text explaining the status
-	string responseBody;		// the actual response
+	ofBuffer responseBody;		// the actual response
 	string contentType;			// the mime type of the response
 	Poco::Timestamp timestamp;		// time of the response
 	string url;
@@ -74,8 +78,8 @@ class ofxHttpUtils : public ofxThread{
 
 		//-------------------------------
 		// blocking functions
-		int submitForm(ofxHttpForm form);
-		void getUrl(string url);
+		ofxHttpResponse submitForm(ofxHttpForm form);
+		ofxHttpResponse getUrl(string url);
 
         int getQueueLength();
         void clearQueue();
@@ -113,7 +117,7 @@ class ofxHttpUtils : public ofxThread{
 		//--------------------------------
 		// http utils
 		string generateUrl(ofxHttpForm & form);
-		int doPostForm(ofxHttpForm & form);
+		ofxHttpResponse doPostForm(ofxHttpForm & form);
 
 		std::queue<ofxHttpForm> forms;
 		vector<HTTPCookie> cookies;

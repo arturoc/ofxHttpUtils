@@ -22,6 +22,7 @@ struct ofxHttpForm{
 
     ofxHttpForm(){
     	method = OFX_HTTP_GET;
+    	expectBinaryResponse = false;
     }
     ~ofxHttpForm(){
         clearFormFields();
@@ -53,6 +54,7 @@ struct ofxHttpForm{
 	vector <string> formIds;
 	vector <string> formValues;
 	std::map<string,string> formFiles;
+	bool expectBinaryResponse;
 };
 
 #endif
