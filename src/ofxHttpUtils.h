@@ -62,6 +62,7 @@ struct ofxHttpResponse{
 	Poco::Timestamp timestamp;		// time of the response
 	string url;
 	vector<HTTPCookie> cookies;
+	string location;
 };
 
 class ofxHttpUtils : public ofxThread{

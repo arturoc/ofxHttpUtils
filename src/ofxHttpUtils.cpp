@@ -161,6 +161,12 @@ ofxHttpResponse ofxHttpUtils::doPostForm(ofxHttpForm & form){
 			cookies.insert(cookies.begin(),response.cookies.begin(),response.cookies.end());
 		}
 
+		if(response.status>=300 && response.status<400){
+			Poco::URI uri(req.getURI());
+			uri.resolve(res.get("Location"));
+			response.location = uri.toString();
+		}
+
     	ofNotifyEvent(newResponseEvent, response, this);
 
 
@@ -199,6 +205,12 @@ ofxHttpResponse ofxHttpUtils::getUrl(string url){
 		istream& rs = session.receiveResponse(res);
 
 		response=ofxHttpResponse(res, rs, path);
+
+		if(response.status>=300 && response.status<400){
+			Poco::URI uri(req.getURI());
+			uri.resolve(res.get("Location"));
+			response.location = uri.toString();
+		}
 
 		ofNotifyEvent( newResponseEvent, response, this );
 
