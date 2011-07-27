@@ -26,7 +26,7 @@ void testApp::draw(){
 
 //--------------------------------------------------------------
 void testApp::newResponse(ofxHttpResponse & response){
-	responseStr = ofToString(response.status) + ": " + response.responseBody;
+	responseStr = ofToString(response.status) + ": " + (string)response.responseBody;
 }
 
 //--------------------------------------------------------------
