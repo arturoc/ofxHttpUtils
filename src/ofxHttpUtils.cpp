@@ -7,14 +7,25 @@
 
 */
 
+#undef verify 
 
-#include "ofxHttpUtils.h"
-#include "ofEvents.h"
+#include "Poco/Net/SSLManager.h"
+#include "Poco/Net/HTTPSClientSession.h"
+#include "Poco/Net/ConsoleCertificateHandler.h"
 #include "Poco/Net/FilePartSource.h"
 #include "Poco/Net/StringPartSource.h"
 #include "Poco/Net/KeyConsoleHandler.h"
-#include "Poco/Net/ConsoleCertificateHandler.h"
-#include "Poco/Net/SSLManager.h"
+#include "Poco/Net/HTTPSession.h"
+#include "Poco/Net/HTTPClientSession.h"
+#include "Poco/Net/HTTPRequest.h"
+#include "Poco/Net/HTMLForm.h"
+#include "Poco/StreamCopier.h"
+#include "Poco/Path.h"
+#include "Poco/URI.h"
+#include "Poco/Exception.h"
+
+#include "ofxHttpUtils.h"
+#include "ofEvents.h"
 
 using namespace std;
 using namespace Poco;
