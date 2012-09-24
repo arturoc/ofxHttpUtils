@@ -32,7 +32,11 @@ class ofxHttpEventManager;
 struct ofxHttpResponse{
 	ofxHttpResponse(Poco::Net::HTTPResponse& pocoResponse, std::istream &bodyStream, string turl, bool binary=false){
 		status=pocoResponse.getStatus();
-		timestamp=pocoResponse.getDate();
+		try{
+			timestamp=pocoResponse.getDate();
+		}catch(Poco::Exception & exc){
+
+		}
 		reasonForStatus=pocoResponse.getReasonForStatus(pocoResponse.getStatus());
 		contentType = pocoResponse.getContentType();
 		responseBody.set(bodyStream);

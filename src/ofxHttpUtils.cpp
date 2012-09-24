@@ -192,7 +192,7 @@ ofxHttpResponse ofxHttpUtils::postData(string url, const ofBuffer & data,  strin
 		ofNotifyEvent(newResponseEvent, response, this);
 	}catch (Exception& exc){
 
-    	ofLogError("ofxHttpUtils") << "ofxHttpUtils error--";
+    	ofLogError("ofxHttpUtils") << "ofxHttpUtils error postData--";
 
         //ofNotifyEvent(notifyNewError, "time out", this);
 
@@ -283,7 +283,7 @@ ofxHttpResponse ofxHttpUtils::doPostForm(ofxHttpForm & form){
 
     }catch (Exception& exc){
 
-    	ofLogError("ofxHttpUtils") << "ofxHttpUtils error--";
+    	ofLogError("ofxHttpUtils") << "ofxHttpUtils error doPostForm--";
 
         //ofNotifyEvent(notifyNewError, "time out", this);
 
