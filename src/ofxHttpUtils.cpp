@@ -36,7 +36,7 @@ bool ofxHttpUtils::initialized = false;
 // ----------------------------------------------------------------------
 ofxHttpUtils::ofxHttpUtils(){
     timeoutSeconds = 2;
-    maxRetries = 5;
+    maxRetries = -1; // -1 means an infinite number of retries
     nbOfTries = 0;
     verbose = true;
     sendCookies = true;
@@ -100,7 +100,7 @@ void ofxHttpUtils::threadedFunction(){
                 nbOfTries = 0;
                 forms.pop();
             }
-            else {
+            else if (maxRetries >= 0) {
                 nbOfTries++;
                 ofLogWarning("ofxHttpUtils") << "The resquest did not succeed. We will try again " << maxRetries - nbOfTries << " time(s)";
                 if (nbOfTries >= maxRetries) {

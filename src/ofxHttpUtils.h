@@ -94,7 +94,7 @@ class ofxHttpUtils : public ofThread{
         void setTimeoutSeconds(int t){
             timeoutSeconds = t;
         }
-        void setMaxRetries(int val){
+        void setMaxRetries(int val){ // -1 means an infinite number of retries
             maxRetries = val;
         }
         void setVerbose(bool v){
@@ -113,7 +113,7 @@ class ofxHttpUtils : public ofThread{
 
 		bool verbose;
         int timeoutSeconds;
-        int maxRetries;
+        int maxRetries; 
         bool sendCookies;
     
         int nbOfTries;
