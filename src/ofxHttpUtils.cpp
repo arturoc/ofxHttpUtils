@@ -243,6 +243,13 @@ ofxHttpResponse ofxHttpUtils::doPostForm(ofxHttpForm & form){
 			}
 		}
 
+		for (unsigned int i = 0; i < form.headerIds.size(); ++i) {
+			const std::string name = form.headerIds[i].c_str();
+			const std::string val = form.headerValues[i].c_str();
+			req.set(name, val);
+		}
+
+
         HTTPResponse res;
 		HTMLForm pocoForm;
 		// create the form data to send
