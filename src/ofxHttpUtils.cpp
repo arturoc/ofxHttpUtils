@@ -70,7 +70,7 @@ void ofxHttpUtils::addForm(ofxHttpForm form){
 
 // ----------------------------------------------------------------------
 void ofxHttpUtils::start() {
-    startThread(true, false);
+    startThread();
 }
 
 // ----------------------------------------------------------------------

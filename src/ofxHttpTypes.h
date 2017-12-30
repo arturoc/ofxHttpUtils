@@ -15,6 +15,8 @@
 
 #include "ofUtils.h"
 
+using namespace std;
+
 struct ofxHttpForm{
 
 
