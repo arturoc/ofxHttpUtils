@@ -26,6 +26,8 @@
 
 #include "ofxHttpUtils.h"
 #include "ofEvents.h"
+#include "ofLog.h"
+#include "ofTypes.h"
 
 using namespace std;
 using namespace Poco;

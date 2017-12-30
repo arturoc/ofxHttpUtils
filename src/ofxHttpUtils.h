@@ -24,7 +24,7 @@
 #include "ofConstants.h"
 #include "ofxHttpTypes.h"
 #include "ofEvents.h"
-
+#include "ofFileUtils.h"
 
 class ofxHttpListener;
 class ofxHttpEventManager;
