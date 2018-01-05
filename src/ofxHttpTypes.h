@@ -16,14 +16,12 @@
 #include "ofUtils.h"
 #include "boost/filesystem.hpp"
 
-using namespace std;
-
 struct ofxHttpForm{
 
 
 	int method;
-	string action;
-	string name;
+    std::string action;
+	std::string name;
 
     ofxHttpForm(){
     	method = OFX_HTTP_GET;
@@ -33,13 +31,13 @@ struct ofxHttpForm{
         clearFormFields();
     }
 
-	void addHeaderField(string id, string value) {
+	void addHeaderField(std::string id, std::string value) {
 		headerIds.push_back(id);
 		headerValues.push_back(value);
 	}
 
 	// ----------------------------------------------------------------------
-	void addFormField(string id, string value){
+	void addFormField(std::string id, std::string value){
         formIds.push_back( id );
         formValues.push_back( value );
 	}
@@ -50,22 +48,22 @@ struct ofxHttpForm{
         formFiles.clear();
 	}
 	// ----------------------------------------------------------------------
-	void addFile(string fieldName, string path){
+	void addFile(std::string fieldName, std::string path){
 		formFiles[fieldName] = ofToDataPath(path);
 	}
 
-	string getFieldValue(string id){
+	std::string getFieldValue(std::string id){
 		for(unsigned int i=0;i<formIds.size();i++){
 			if(formIds[i]==id) return formValues[i];
 		}
 		return "";
 	}
 
-	vector <string> formIds;
-	vector <string> formValues;
-	vector <string> headerIds;
-	vector <string> headerValues;
-	std::map<string,string> formFiles;
+	std::vector <std::string> formIds;
+	std::vector <std::string> formValues;
+	std::vector <std::string> headerIds;
+	std::vector <std::string> headerValues;
+	std::map<std::string,std::string> formFiles;
 	bool expectBinaryResponse;
 };
 

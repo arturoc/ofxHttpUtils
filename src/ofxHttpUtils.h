@@ -30,7 +30,7 @@ class ofxHttpListener;
 class ofxHttpEventManager;
 
 struct ofxHttpResponse{
-	ofxHttpResponse(Poco::Net::HTTPResponse& pocoResponse, std::istream &bodyStream, string turl, bool binary=false){
+    ofxHttpResponse(Poco::Net::HTTPResponse& pocoResponse, std::istream &bodyStream, std::string turl, bool binary=false){
 		status=pocoResponse.getStatus();
 		try{
 			timestamp=pocoResponse.getDate();
@@ -47,18 +47,18 @@ struct ofxHttpResponse{
 
 	ofxHttpResponse(){}
 
-	string getURLFilename(){
+	std::string getURLFilename(){
 		return url.substr(url.rfind('/')+1);
 	}
 
 	int status; 				// return code for the response ie: 200 = OK
-	string reasonForStatus;		// text explaining the status
+	std::string reasonForStatus;		// text explaining the status
 	ofBuffer responseBody;		// the actual response
-	string contentType;			// the mime type of the response
+	std::string contentType;			// the mime type of the response
 	Poco::Timestamp timestamp;		// time of the response
-	string url;
-	vector<Poco::Net::HTTPCookie> cookies;
-	string location;
+	std::string url;
+	std::vector<Poco::Net::HTTPCookie> cookies;
+	std::string location;
 };
 
 class ofxHttpUtils : public ofThread{
@@ -71,13 +71,13 @@ class ofxHttpUtils : public ofThread{
 		// non blocking functions
 
 		void addForm(ofxHttpForm form);
-		void addUrl(string url);
+		void addUrl(std::string url);
 
 		//-------------------------------
 		// blocking functions
 		ofxHttpResponse submitForm(ofxHttpForm form);
-		ofxHttpResponse getUrl(string url);
-		ofxHttpResponse postData(string url, const ofBuffer & data, string contentType="");
+		ofxHttpResponse getUrl(std::string url);
+		ofxHttpResponse postData(std::string url, const ofBuffer & data, std::string contentType="");
 
         int getQueueLength();
         void clearQueue();
@@ -103,7 +103,7 @@ class ofxHttpUtils : public ofThread{
 
         void sendReceivedCookies();
 
-        void setBasicAuthentication(string user, string password);
+        void setBasicAuthentication(std::string user, std::string password);
 
 
 		void start();
@@ -120,11 +120,11 @@ class ofxHttpUtils : public ofThread{
 
 		//--------------------------------
 		// http utils
-		string generateUrl(ofxHttpForm & form);
+		std::string generateUrl(ofxHttpForm & form);
 		ofxHttpResponse doPostForm(ofxHttpForm & form);
 
 		std::queue<ofxHttpForm> forms;
-		vector<Poco::Net::HTTPCookie> cookies;
+		std::vector<Poco::Net::HTTPCookie> cookies;
 		Poco::Net::HTTPBasicCredentials auth;
 		Poco::Condition condition;
 
