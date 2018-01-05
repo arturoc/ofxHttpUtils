@@ -26,6 +26,8 @@
 
 #include "ofxHttpUtils.h"
 #include "ofEvents.h"
+#include "ofLog.h"
+#include "ofTypes.h"
 
 using namespace std;
 using namespace Poco;
@@ -70,7 +72,7 @@ void ofxHttpUtils::addForm(ofxHttpForm form){
 
 // ----------------------------------------------------------------------
 void ofxHttpUtils::start() {
-    startThread(true, false);
+    startThread();
 }
 
 // ----------------------------------------------------------------------
