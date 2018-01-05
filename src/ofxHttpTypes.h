@@ -14,7 +14,6 @@
 #define OFX_HTTP_POST 1
 
 #include "ofUtils.h"
-#include "boost/filesystem.hpp"
 
 struct ofxHttpForm{
 
@@ -48,7 +47,7 @@ struct ofxHttpForm{
         formFiles.clear();
 	}
 	// ----------------------------------------------------------------------
-	void addFile(std::string fieldName, std::string path){
+    void addFile(std::string fieldName, const std::filesystem::path & path){
 		formFiles[fieldName] = ofToDataPath(path);
 	}
 
