@@ -183,13 +183,13 @@ ofxHttpResponse ofxHttpUtils::postData(string url, const ofBuffer & data,  strin
 		istream * rs;
 		if(uri.getScheme()=="https"){
 			HTTPSClientSession * httpsSession = new HTTPSClientSession(uri.getHost(), uri.getPort());//,context);
-			httpsSession->setTimeout(Poco::Timespan(20,0));
+			httpsSession->setTimeout(Poco::Timespan(timeoutSeconds,0));
 			httpsSession->sendRequest(req) << data;
 			rs = &httpsSession->receiveResponse(res);
 			session = ofPtr<HTTPSession>(httpsSession);
 		}else{
 			HTTPClientSession * httpSession = new HTTPClientSession(uri.getHost(), uri.getPort());
-			httpSession->setTimeout(Poco::Timespan(20,0));
+			httpSession->setTimeout(Poco::Timespan(timeoutSeconds,0));
 			httpSession->sendRequest(req) << data;
 			rs = &httpSession->receiveResponse(res);
 			session = ofPtr<HTTPSession>(httpSession);
@@ -282,13 +282,13 @@ ofxHttpResponse ofxHttpUtils::doPostForm(ofxHttpForm & form){
         istream * rs;
         if(uri.getScheme()=="https"){
         	HTTPSClientSession * httpsSession = new HTTPSClientSession(uri.getHost(), uri.getPort());//,context);
-        	httpsSession->setTimeout(Poco::Timespan(20,0));
+        	httpsSession->setTimeout(Poco::Timespan(timeoutSeconds,0));
             pocoForm.write(httpsSession->sendRequest(req));
         	rs = &httpsSession->receiveResponse(res);
         	session = ofPtr<HTTPSession>(httpsSession);
         }else{
         	HTTPClientSession * httpSession = new HTTPClientSession(uri.getHost(), uri.getPort());
-        	httpSession->setTimeout(Poco::Timespan(20,0));
+        	httpSession->setTimeout(Poco::Timespan(timeoutSeconds,0));
             pocoForm.write(httpSession->sendRequest(req));
         	rs = &httpSession->receiveResponse(res);
         	session = ofPtr<HTTPSession>(httpSession);
