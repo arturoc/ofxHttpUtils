@@ -59,6 +59,9 @@ struct ofxHttpResponse{
 	std::string url;
 	std::vector<Poco::Net::HTTPCookie> cookies;
 	std::string location;
+    
+    ofxHttpForm form;
+    ofBuffer buffer;
 };
 
 class ofxHttpUtils : public ofThread{
