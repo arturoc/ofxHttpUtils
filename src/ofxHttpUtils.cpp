@@ -55,6 +55,8 @@ ofxHttpUtils::ofxHttpUtils(){
 
 // ----------------------------------------------------------------------
 ofxHttpUtils::~ofxHttpUtils(){
+    stop();
+    waitForThread(false);
 }
 
 // ----------------------------------------------------------------------
@@ -155,6 +157,7 @@ string ofxHttpUtils::generateUrl(ofxHttpForm & form) {
 // ----------------------------------------------------------------------
 ofxHttpResponse ofxHttpUtils::postData(string url, const ofBuffer & data,  string contentType){
 	ofxHttpResponse response;
+    
 	try{
 		URI uri( url.c_str() );
 		std::string path(uri.getPathAndQuery());
@@ -206,7 +209,8 @@ ofxHttpResponse ofxHttpUtils::postData(string url, const ofBuffer & data,  strin
 			uri.resolve(res.get("Location"));
 			response.location = uri.toString();
 		}
-
+        
+        response.buffer= data;
 		ofNotifyEvent(newResponseEvent, response, this);
 	}catch (Exception& exc){
 
@@ -218,9 +222,12 @@ ofxHttpResponse ofxHttpUtils::postData(string url, const ofBuffer & data,  strin
     	ofLogError("ofxHttpUtils") << exc.displayText();
         response.status = -1;
         response.reasonForStatus = exc.displayText();
+        
+        response.buffer= data;
     	ofNotifyEvent(newResponseEvent, response, this);
 
     }
+    
 	return response;
 }
 
@@ -306,6 +313,7 @@ ofxHttpResponse ofxHttpUtils::doPostForm(ofxHttpForm & form){
 			response.location = uri.toString();
 		}
 
+        response.form= form;
     	ofNotifyEvent(newResponseEvent, response, this);
 
 
@@ -318,10 +326,12 @@ ofxHttpResponse ofxHttpUtils::doPostForm(ofxHttpForm & form){
     	ofLogError("ofxHttpUtils") << exc.displayText();
         response.status = -1;
         response.reasonForStatus = exc.displayText();
+        
+        response.form= form;
     	ofNotifyEvent(newResponseEvent, response, this);
 
     }
-
+    
     return response;
 }
 
