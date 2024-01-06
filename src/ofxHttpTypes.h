@@ -14,6 +14,7 @@
 #define OFX_HTTP_POST 1
 
 #include "ofUtils.h"
+#include "ofFileUtils.h"
 
 struct ofxHttpForm{
 
